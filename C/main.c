@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#define MAX 100
 
 static void read (char field[], char buffer_f[], char question[])
 {
     printf(question);
-    scanf_s("%s", buffer_f, 50);
+    scanf_s("%s", buffer_f, MAX);
     strcpy(field, buffer_f);
 }
 
@@ -20,7 +21,7 @@ static void error ()
 
 int main()
 {
-    char buffer[50];
+    char buffer[MAX];
     int option;
     char name[50] = "";
     char profession[50] = "";
@@ -31,7 +32,7 @@ int main()
         printf("----------------------------------------------\n");
         printf("Nome: %s | Profissao: %s | Salario: %s", name, profession, salary);
         printf("\n-------------------- CRUD --------------------\n");
-        printf("1 - Inserir Informacoes\n2 - Atualizar\n3 - Excluir\n4 - Outras Opções\n5 - Sair do Sistema");
+        printf("1 - Inserir Informacoes\n2 - Atualizar\n3 - Excluir\n4 - Outras Opcoes\n5 - Sair do Sistema\n");
         printf("----------------------------------------------\n");
         printf("Opcao: ");
         scanf_s("%i", &option);
@@ -130,7 +131,7 @@ int main()
             while (1)
             {
                 int option_c;
-                double br_salary;
+                float br_salary;
 
 
                 printf("1 - Calculo de Salario Liquido\n");
@@ -143,23 +144,36 @@ int main()
                 {
                     double inss;
 
-                    printf("Salário Bruto: R$");
-                    scanf_s("%d", &br_salary);
+                    printf("Salario Bruto: R$");
+                    scanf_s("%f", &br_salary);
                     system("cls");
 
                     if (br_salary <= 1412) 
                     { 
-                        inss = (br_salary * 0.075) / 100; 
+                        inss = (br_salary * 7.5) / 100;
                     }
                     else if (br_salary >= 1412.01 && br_salary <= 2666.68)
                     {
-                        inss = (2666.68 - br_salary) * 0.09 / 100 + 105.9
+                        inss = (br_salary - 1412.01) * 0.09 + 105.90;
+                    }
+                    else if (br_salary >= 2666.69 && br_salary <= 4000.03)
+                    {
+                        inss = (br_salary - 2666.68) * 0.12 + 112.92;
+                    }
+                    else if (br_salary > 4000.03 && br_salary <= 7786.02)
+                    {
+                        inss = (br_salary - 4000.03) * 0.14 + 160.00;
+                    }
+                    else
+                    {
+                        inss = 713.10;
                     }
 
-                    salary = br_salary - inss;
+                    double convert_salary = br_salary - inss;
 
+                    sprintf_s(salary, 50, "%.2f", convert_salary);
 
-                    printf("Salario Liquido: %d", )
+                    printf("Salario Liquido: %s", salary);
                 }
 
             }
