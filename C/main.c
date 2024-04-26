@@ -1,17 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include "calcs.h"
 #define MAX 100
+
+
 
 static void read (char field[], char buffer_f[], char question[])
 {
     printf(question);
     scanf_s("%s", buffer_f, MAX);
-    strcpy(field, buffer_f);
+    strcpy_s(field, 50, buffer_f);
 }
 
 static void del (char field[]) 
 { 
-    strcpy(field, ""); 
+    strcpy_s(field, 50, "");
 };
 
 static void error () 
@@ -30,7 +34,7 @@ int main()
     while (1)
     {
         printf("----------------------------------------------\n");
-        printf("Nome: %s | Profissao: %s | Salario: %s", name, profession, salary);
+        printf("Nome: %s | Profissao: %s | Salario: R$%s", name, profession, salary);
         printf("\n-------------------- CRUD --------------------\n");
         printf("1 - Inserir Informacoes\n2 - Atualizar\n3 - Excluir\n4 - Outras Opcoes\n5 - Sair do Sistema\n");
         printf("----------------------------------------------\n");
@@ -142,6 +146,7 @@ int main()
 
                 if (option_c == 1) 
                 {
+                    float result;
                     double inss;
 
                     printf("Salario Bruto: R$");
@@ -150,7 +155,8 @@ int main()
 
                     if (br_salary <= 1412) 
                     { 
-                        inss = (br_salary * 7.5) / 100;
+                        result = mult(br_salary, 7.5);
+                        inss = result / 100;
                     }
                     else if (br_salary >= 1412.01 && br_salary <= 2666.68)
                     {
@@ -173,7 +179,9 @@ int main()
 
                     sprintf_s(salary, 50, "%.2f", convert_salary);
 
-                    printf("Salario Liquido: %s", salary);
+                    printf("Salario Liquido: %s\n", salary);
+                    system("cls");
+                    break;
                 }
 
             }
