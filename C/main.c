@@ -1,10 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "calcs.h"
 #define MAX 100
 
+static float mult_func(double num1, double num2)
+{
+    float result;
 
+    __asm
+    {
+        fld qword ptr[num1]
+        fld qword ptr[num2]
+
+        fmul
+
+        fstp dword ptr[result]  
+    }
+
+    return result;
+}
 
 static void read (char field[], char buffer_f[], char question[])
 {
@@ -16,7 +30,7 @@ static void read (char field[], char buffer_f[], char question[])
 static void del (char field[]) 
 { 
     strcpy_s(field, 50, "");
-};
+}
 
 static void error () 
 { 
@@ -135,7 +149,7 @@ int main()
             while (1)
             {
                 int option_c;
-                float br_salary;
+                double br_salary;
 
 
                 printf("1 - Calculo de Salario Liquido\n");
@@ -146,16 +160,16 @@ int main()
 
                 if (option_c == 1) 
                 {
-                    float result;
+                    double result;
                     double inss;
 
                     printf("Salario Bruto: R$");
-                    scanf_s("%f", &br_salary);
+                    scanf_s("%lf", &br_salary);
                     system("cls");
 
                     if (br_salary <= 1412) 
                     { 
-                        result = mult(br_salary, 7.5);
+                        result = mult_func(br_salary, 7.5);
                         inss = result / 100;
                     }
                     else if (br_salary >= 1412.01 && br_salary <= 2666.68)
@@ -177,7 +191,7 @@ int main()
 
                     double convert_salary = br_salary - inss;
 
-                    sprintf_s(salary, 50, "%.2f", convert_salary);
+                    sprintf_s(salary, 50, "%.2lf", convert_salary);
 
                     printf("Salario Liquido: %s\n", salary);
                     system("cls");
