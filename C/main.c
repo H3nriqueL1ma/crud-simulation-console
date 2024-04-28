@@ -3,18 +3,31 @@
 #include <string.h>
 #define MAX 100
 
-static float multiplication(double num1, double num2)
+static float multiplication(float num1, float num2)
 {
     float result;
 
     __asm
     {
-        fld qword ptr[num1]
-        fld qword ptr[num2]
-
+        fld dword ptr[num1]
+        fld dword ptr[num2]
         fmul
-
         fstp dword ptr[result]  
+    }
+
+    return result;
+}
+
+static float division(float num1, int num2)
+{
+    float result;
+
+    __asm
+    {
+        fld dword ptr[num1]
+        fild dword ptr[num2]
+        fdiv
+        fstp dword ptr[result]
     }
 
     return result;
@@ -170,19 +183,19 @@ void main ()
                     if (br_salary <= 1412) 
                     { 
                         result = multiplication(br_salary, 7.5);
-                        inss = result / 100;
+                        inss = division(result, 100);
                     }
                     else if (br_salary >= 1412.01 && br_salary <= 2666.68)
                     {
-                        inss = (br_salary - 1412.01) * 0.09 + 105.90;
+                        inss = multiplication((br_salary - 1412.01), 0.09) + 105.90;
                     }
                     else if (br_salary >= 2666.69 && br_salary <= 4000.03)
                     {
-                        inss = (br_salary - 2666.68) * 0.12 + 112.92;
+                        inss = multiplication((br_salary - 2666.68), 0.12) + 112.92;
                     }
                     else if (br_salary > 4000.03 && br_salary <= 7786.02)
                     {
-                        inss = (br_salary - 4000.03) * 0.14 + 160.00;
+                        inss = multiplication((br_salary - 4000.03), 0.14) + 160.00;
                     }
                     else
                     {
