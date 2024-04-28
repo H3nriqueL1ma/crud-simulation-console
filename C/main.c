@@ -3,7 +3,7 @@
 #include <string.h>
 #define MAX 100
 
-static float mult_func(double num1, double num2)
+static float multiplication(double num1, double num2)
 {
     float result;
 
@@ -27,7 +27,7 @@ static void read (char field[], char buffer_f[], char question[])
     strcpy_s(field, 50, buffer_f);
 }
 
-static void del (char field[]) 
+static void delete (char field[]) 
 { 
     strcpy_s(field, 50, "");
 }
@@ -37,7 +37,7 @@ static void error ()
     printf("Opcao invalida! Digite novamente...\n"); 
 }
 
-int main()
+void main ()
 {
     char buffer[MAX];
     int option;
@@ -121,19 +121,19 @@ int main()
 
                 if (option_c == 1) 
                 {
-                    del(name);
+                    delete(name);
                     system("cls");
                     break;
                 }
                 else if (option_c == 2) 
                 {
-                    del(profession);
+                    delete(profession);
                     system("cls");
                     break;
                 }
                 else if (option_c == 3) 
                 {
-                    del(salary);
+                    delete(salary);
                     system("cls");
                     break;
                 }
@@ -169,7 +169,7 @@ int main()
 
                     if (br_salary <= 1412) 
                     { 
-                        result = mult_func(br_salary, 7.5);
+                        result = multiplication(br_salary, 7.5);
                         inss = result / 100;
                     }
                     else if (br_salary >= 1412.01 && br_salary <= 2666.68)
@@ -211,6 +211,4 @@ int main()
             continue;
         }
     }
-
-    return 0;
 }
